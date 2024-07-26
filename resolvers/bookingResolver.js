@@ -85,9 +85,9 @@ const bookingResolver = {
                 if (!session.url) {
                     throw new Error("Error creating stripe session")
                 } else {
-                    return JSON.stringify({
+                    return{
                         url:session.url
-                    })
+                    }
                 }
 
 
