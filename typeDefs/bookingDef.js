@@ -20,7 +20,14 @@ type Query{
 }
 
 type Mutation{
-   createCheckOutSession:CheckoutUrl
+   createCheckOutSession(input:CheckOutRequestInput!):CheckoutUrl
+}
+
+input CheckOutRequestInput{
+    id:String
+    title:String
+    quantity:String,
+    price:Float
 }
 
 type CheckoutUrl{
