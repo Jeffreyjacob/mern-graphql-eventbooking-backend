@@ -60,7 +60,7 @@ app.get("/auth/google/callback",passport.authenticate("google",{
 )
 
 app.get("/auth/google",passport.authenticate('google', { scope: ['profile', 'email'] }))
-app.post("/api/booking/checkout/webhook",bodyParser.raw({type:"application/json"}),stripeWebhookHandler)
+app.post("/api/booking/checkout/webhook",bodyParser.raw({ type: 'application/json' }),stripeWebhookHandler)
 
 const server = new ApolloServer({
     typeDefs:mergedTypeDefs,
