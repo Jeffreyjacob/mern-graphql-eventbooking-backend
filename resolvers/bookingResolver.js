@@ -26,8 +26,9 @@ export const stripeWebhookHandler = async (req, res) => {
         return res.status(400).send(`Webhook error: ${error.message}`)
     }
     if (event.type === "checkout.session.completed") {
-        const booking = await Booking.findById(event.data.object.metadata?.bookingId);
-        if (!order) {
+        console.log(event)
+        const booking = await Booking.findById(event.data.object.metadata.bookingId);
+        if (!booking) {
             return res.status(400).json({ message: "booking not found" })
         }
         booking.totalAmount = event.data.object.amount_total;
