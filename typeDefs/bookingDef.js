@@ -5,7 +5,8 @@ const bookingTypeDef = `#graphql
 type Booking{
     user:ID!,
     ticketDetail:ticketsDetail!,
-    totalAmount:Float!
+    totalAmount:Float!,
+    event:Event
 }
 
 type ticketsDetail{
@@ -16,7 +17,7 @@ type ticketsDetail{
 }
 
 type Query{
-    bookings(userId:ID!):[Booking!]
+    bookings:[Booking!]
 }
 
 type Mutation{

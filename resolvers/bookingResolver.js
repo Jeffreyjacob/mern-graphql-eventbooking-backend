@@ -39,7 +39,16 @@ export const stripeWebhookHandler = async (req, res) => {
 
 const bookingResolver = {
     Query: {
-
+        bookings:async(_,__,{req})=>{
+            try{
+            const userId = req.session.userId || new mongoose.Types.ObjectId(req.session.passport.user)
+             const booking = await Booking.find({user:userId})
+             return booking
+            }catch(error){
+              console.log(error)
+              throw new Error(error)
+            }
+        }
     },
     Mutation: {
         createCheckOutSession: async (_, { input }, { req }) => {
@@ -93,6 +102,21 @@ const bookingResolver = {
 
 
             } catch (error) {
+                console.log(error)
+                throw new Error(error)
+            }
+        }
+    },
+    Booking:{
+        event:async(parent)=>{
+            console.log(parent.ticketDetail.id)
+            try{
+              const event = await Event.findById(parent.ticketDetail.id)
+              if(!event){
+                throw new Error("event not found")
+              }
+              return event
+            }catch(error){
                 console.log(error)
                 throw new Error(error)
             }

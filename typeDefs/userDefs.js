@@ -6,12 +6,13 @@ type User {
     name: String!
     profilePicture: String
     gender: String,
-    phoneNumber: String
+    phoneNumber: String,
+    event:[Event]
+    BookedEvent:[Booking]
 }
-
 type Query {
     authUser: User
-    user(userId: ID!): User
+    user: User
 }
 
 type Mutation {
@@ -20,6 +21,7 @@ type Mutation {
     logOut: LogOutResponse
     forgetPasswordEmail(input: ForgetPasswordInput!): ForgetPasswordResponse
     resetPassword(input: ResetPasswordInput!): ForgetPasswordResponse
+    updateUser(input:UpdateUserInput!):User
 }
 
 input SignUpInput {
@@ -48,6 +50,12 @@ input ResetPasswordInput {
 
 type ForgetPasswordResponse {
     message: String!
+}
+input UpdateUserInput{
+    name: String
+    profilePicture: String
+    gender: String,
+    phoneNumber: String
 }
 `
 

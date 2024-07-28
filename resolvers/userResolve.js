@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import User from "../models/user.model.js"
 import sendEmail from "../utils/sendMail.js"
 import crypto from "crypto";
+import Booking from "../models/booking.model.js";
+import Event from "../models/event.model.js";
 
 const userResolver = {
     Mutation: {
@@ -109,6 +111,23 @@ const userResolver = {
                console.log(error)
                throw new Error(error)
             }
+        },
+        updateUser:async(_,{input},{req})=>{
+           try{
+            const userId = req.session.userId || new mongoose.Types.ObjectId(req.session.passport.user)
+            const user = await User.findById(userId)
+            if(!user){
+                throw new Error("user not found")
+            }
+            user.name = input.name || user.name
+            user.gender = input.gender || user.gender
+            user.phoneNumber = input.phoneNumber || user.phoneNumber
+            user.save()
+            return user
+           }catch(error){
+              console.log(error)
+              throw new Error(error)
+           }
         }
     },
     Query:{
@@ -127,7 +146,45 @@ const userResolver = {
                console.log(error)
                throw new Error(error)
             }
+        },
+        user:async(_,__,{req})=>{
+            try{
+                const userId = req.session.userId || new mongoose.Types.ObjectId(req.session.passport.user)
+                if (!userId) {
+                  throw new Error("Not authenticated");
+              }
+                const user = await User.findById(userId)
+                if(!user){
+                  throw new Error("Not authenticated")
+                }
+                return user
+              }catch(error){
+                 console.log(error)
+                 throw new Error(error)
+              }
         }
+    },
+    User:{
+        event:async(parent)=>{
+            try{
+               const event = await Event.find({organizerId:parent._id})
+               return event
+            }catch(error){
+              console.log(error)
+              throw new Error(error)
+            }
+        },
+        BookedEvent:async(parent)=>{
+            console.log(parent)
+            try{
+              const bookedEvent= await Booking.find({user:parent.id})
+              return bookedEvent
+            }catch(error){
+            console.log(error)
+              throw new Error(error)
+            }
+        }
+        
     }
 }
 

@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 const bookingSchema = new mongoose.Schema({
     user:{type:mongoose.Schema.Types.ObjectId, ref:"User"},
     ticketDetail:{
-        id:{type:String,required:true},
+        id:{type:mongoose.Schema.Types.ObjectId, ref:"event"},
         title:{type:String,required:true},
         quantity:{type:String,required:true},
         price:{type:Number,required:true}
